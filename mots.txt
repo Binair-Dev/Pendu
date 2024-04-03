@@ -1,0 +1,15 @@
+Pomme
+Chien
+Chat
+Maison
+Voiture
+Ordinateur
+Banane
+Avion
+Livre
+Plage
+Musique
+Soleil
+Lunettes
+Téléphone
+Football
