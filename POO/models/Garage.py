@@ -1,10 +1,26 @@
 from models.Voiture import Voiture
 
 class Garage:
-    nombre_places = 0
-    nom = ""
-    localisation = ""
-    liste_vehicule = []
+    _nom = ""
+    _nombre_places = 0
+    _localisation = ""
+    _liste_vehicule = []
+    
+    @property
+    def nom(self):
+        return self._nom
+    
+    @property
+    def nombre_places(self):
+        return self._nombre_places
+    
+    @property
+    def localisation(self):
+        return self._localisation
+    
+    @property
+    def liste_vehicule(self):
+        return self._liste_vehicule
     
     # def __init__(self, places, nom, localisation):
     #     self.nombre_places = places
