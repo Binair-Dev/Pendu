@@ -1,20 +1,45 @@
-from models.Elephant import Elephant
-
-
 class Soigneur:
-    nom = ""
-    date_naissance = ""
-    experience = ""
-    nombre_animaux_responsable = 0
+    #region Attributs
+    _nom = ""
+    _date_naissance = ""
+    _experience = 0
+    _nombre_animaux_responsable = 0
+    #endregion
     
-    def nourir(self, animal : Elephant):
-        animal.manger()
-        pass
+    #region getter, setter
+    @property
+    def nom(self):
+        return self._nom
+
+    @nom.setter
+    def nom(self, value):
+        self._nom = value
+
+    @property
+    def date_naissance(self):
+        return self._date_naissance
+
+    @property
+    def expérience(self):
+        return self._experience
+
+    @property
+    def nombre_animaux_responsable(self):
+        return self._nombre_animaux_responsable
+    #endregion
     
-    def entretenir(self, animal : Elephant):
-        if animal.satisfaction < 100:
-            animal.satisfaction += 10
-            print(f"Le soigneur {self.nom} vient de s'occuper de {animal.nom}.")
-            print(f"Sa satisfaction vient de grimper de 10% !")
+    #region Méthodes
+    def nourrir(self, animal):
+        if animal.en_vie and animal.manger(self.nom):
+            # animal.manger(self.nom)
+            print(f"{self.nom} nourrit {animal.nom} 🍽️")
         else:
-            print(f"Le soigneur n'a pas besoin de s'occuper de {animal.nom} aujourd'hui.")
+            print(f"L'animal {animal.nom} est mort, il ne peut pas être nourri.")
+    
+    def entretenir(self, animal):
+        if animal.en_vie:
+            animal.bonheur = 100
+            print(f"{self.nom} entretiens {animal.nom} 💟")
+        else:
+            print(f"L'animal {animal.nom} est mort, il ne peut pas être entretenu....")
+    #endregion

@@ -1,51 +1,75 @@
+import os
+import time
+
+from models.Elephant import Elephant
 from models.Enclos import Enclos
 from models.Soigneur import Soigneur
-from models.Elephant import Elephant
 
+def clear_console():
+    os.system('cls' if os.name == 'nt' else 'clear') 
 
 if __name__ == "__main__":
-    passer_un_jour = True
-    liste_enclos = []
+    #region Encodage
+    clear_console()
+    print("Simulation de vie au sein d'un enclos 😃")
+    time.sleep(3)
+    clear_console()
     
+    # infos soigneur
+    print("Veuillez saisir les informations demandée pour le soigneur : \n")
     soigneur = Soigneur()
-    soigneur.date_naissance = "08/09/1997"
-    soigneur.experience = 8
-    soigneur.nom = "Brian Van Bellinghen"
-    soigneur.nombre_animaux_responsable = 1
+    soigneur.nom = input("Nom :")
+    clear_console()
     
-    elephant = Elephant()
-    elephant.nom = "Thibault"
-    elephant.appétit = 50
-    elephant.satisfaction = 50
-    elephant.en_vie = True
-    elephant.soigneur = soigneur
-    
+    # infos enclos
+    print("Veuillez a présent saisir les information lié a l'enclos : \n")
     enclos = Enclos()
-    enclos.nom = "TfTic"
-    enclos.capacité_max = 10
-    enclos.taille = 2000
-    enclos.ajouter_animal(elephant)
+    enclos.nom = "Enclos à Éléphant 1"
+    enclos.capacite_max = 20
+    enclos.taille = 4000
+    clear_console()
     
-    liste_enclos.append(enclos)
     
-    while(passer_un_jour):
-        response = input("Voulez vous passer un jour ? (y/n)")
-        if response == "y":
-            for e in liste_enclos:
-                print(f"Nous venons de passer un jour dans l'enclos {e.nom}.")
-                for animal in e.liste_animaux:
-                    soigneur = animal.soigneur
-                    response2 = input("Voulez vous que les soigneurs nourissent les animaux ? (y/n)")
-                    if response2 == "y":
-                        soigneur.nourir(animal)
-                        response3 = input("Voulez vous que les soigneurs soignent/occupe des animaux ? (y/n)")
-                        if response3 == "y":
-                            soigneur.entretenir(animal)
-                    else:
-                        response3 = input("Voulez vous que les soigneurs soignent/occupe des animaux ? (y/n)")
-                        if response3 == "y":
-                            soigneur.entretenir(animal)
-                print(f"Fin de la journée.")
-        else:
-            passer_un_jour = False
-            print("Fin de la simulation.")
+    #infos éléphant
+    nombre_animaux = int(input(f"De combien d'animaux l'enclos sera t'il constitué ? (max = {enclos.capacite_max}) : "))
+    clear_console()
+    
+    for i in range(nombre_animaux):
+        animal = Elephant()
+        print(f"Encodage animal nr° {i+1}")
+        animal.nom = input("Nom :")
+        animal.soigneur = soigneur
+        enclos.ajouter_animal(animal)
+        time.sleep(1)
+        clear_console()
+    
+    nombre_jour = int(input("Nombre de jour(s) : "))
+    clear_console()
+    #endregion
+    
+    #region logique
+    input("Enter pour lancer la simulation 🎮")
+    
+    for i in range(nombre_jour):
+        for animal in enclos.liste_animaux:
+            if animal.rassasier <= 50:
+                soigneur.nourrir(animal)
+                time.sleep(2)
+            if animal.bonheur <= 70:
+                soigneur.entretenir(animal)
+                time.sleep(2)
+        
+        clear_console()
+        enclos.passer_un_jour()
+        clear_console()
+        print("---------")
+        enclos.afficher_animaux()
+        input("Enter pour passer au jour suivant")
+        clear_console()
+    
+    print("La simulation est arrivée a son terme 😁")
+    time.sleep(3)
+    print()
+    print()
+    input("--- Enter pour quitter ---")
+    #endregion
